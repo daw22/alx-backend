@@ -4,7 +4,7 @@ Hypermedia pagination
 """
 import csv
 import math
-from typing import List, Tuple
+from typing import List, Tuple, Dict, Union
 
 
 def index_range(page: int, page_size: int) -> Tuple[int, int]:
@@ -50,7 +50,9 @@ class Server:
         start, end = index_range(page, page_size)
         return self.__dataset[start:end]
 
-    def get_hyper(self, page: int = 1, page_size: int = 10) -> List[List]:
+    def get_hyper(self, page: int = 1,
+                  page_size: int = 10
+                  ) -> Dict[str, Union[int, List[List], None]]:
         """
         Gets and returns page data with hypermedia
         """
@@ -61,10 +63,7 @@ class Server:
         else:
             total_pages = len(self.__dataset) / page_size + 1
 
-        if len(data) == 0:
-            page_size = 0
-        else:
-            page_size = len(data)
+        page_size = len(data)
         if page >= total_pages:
             next_page = None
         else:
