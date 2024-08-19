@@ -56,23 +56,15 @@ class Server:
         """
         Gets and returns page data with hypermedia
         """
-        data = self.get_page(page, page_size)
-
-        if len(self.__dataset) % page_size == 0:
-            total_pages = len(self.__dataset) / page_size
-        else:
-            total_pages = len(self.__dataset) / page_size + 1
-
-        page_size = len(data)
-        if page >= total_pages:
-            next_page = None
-        else:
-            next_page = page + 1
-        if page == 1:
-            prev_page = None
-        else:
-            prev_page = page - 1
-
-        return {"page_size": page_size, "page": page,
-                "data": data, "next_page": next_page,
-                "prev_page": prev_page, "total_pages": int(total_pages)}
+        page_data = self.get_page(page, page_size)
+        start, end = index_range(page, page_size)
+        total_pages = math.ceil(len(self.__dataset) / page_size)
+        page_info = {
+            'page_size': len(page_data),
+            'page': page,
+            'data': page_data,
+            'next_page': page + 1 if end < len(self.__dataset) else None,
+            'prev_page': page - 1 if start > 0 else None,
+            'total_pages': total_pages,
+        }
+        return page_info
