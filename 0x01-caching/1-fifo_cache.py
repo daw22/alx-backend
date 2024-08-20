@@ -3,6 +3,7 @@
 FIFO caching
 """
 from base_caching import BaseCaching
+import collections
 
 
 class FIFOCache(BaseCaching):
@@ -10,6 +11,12 @@ class FIFOCache(BaseCaching):
     A class that inherits from BaseCaching
     and is a FIFO caching system
     """
+
+    def __init__(self):
+        """Initializer"""
+        super().__init__()
+        self.cache_data = collections.OrderedDict()
+        
     def put(self, key, item):
         """
         Assigns to the dictionary self.cache_data
@@ -31,4 +38,4 @@ class FIFOCache(BaseCaching):
         """
         if key is None:
             return None
-        return self.cache_data[key]
+        return self.cache_data.get(key)
