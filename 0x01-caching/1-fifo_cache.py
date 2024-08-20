@@ -27,11 +27,10 @@ class FIFOCache(BaseCaching):
         if key is None or item is None:
             return
         self.cache_data[key] = item
-        if len(self.cache_data.keys()) > BaseCaching.MAX_ITEMS:
-            first_in = list(self.cache_data)[0]
-            del self.cache_data[first_in]
-            print(f"DISCARD: {first_in}")
-
+        if len(self.cache_data) > BaseCaching.MAX_ITEMS:
+            first_key, _ = self.cache_data.popitem(False)
+            print("DISCARD:", first_key)
+    
     def get(self, key):
         """
         Returns the value in self.cache_data linked to key
