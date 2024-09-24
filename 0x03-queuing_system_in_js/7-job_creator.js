@@ -61,6 +61,6 @@ jobs.forEach((job) => {
     console.log(`Notification job ${newJob.id} failed: ${errMsg}`);
   });
   newJob.on('progress', (progress, data) => { /* eslint-disable-line no-unused-vars */
-    console.log(`Notification job ${job.id} ${progress}% complete`);
+    console.log(`Notification job ${newJob.id} ${progress}% complete`);
   });
 });
